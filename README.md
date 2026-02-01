@@ -71,3 +71,7 @@ export default defineConfig([
   },
 ])
 ```
+
+## Instructions
+
+[https://frontend-test-4p-page.vercel.app/?view=true](https://frontend-test-4p-page.vercel.app/?view=true)
