@@ -1,0 +1,20 @@
+{
+  "transactions": [
+    {
+      "id": "tx_001",
+      "type": "income",
+      "amount": 125000,
+      "deletedAt": null,
+      "createdAt": "2026-01-28T12:00:00.000Z",
+      "updatedAt": "2026-01-28T12:00:00.000Z"
+    },
+    {
+      "id": "tx_002",
+      "type": "outcome",
+      "amount": 32000,
+      "deletedAt": null,
+      "createdAt": "2026-01-29T10:00:00.000Z",
+      "updatedAt": "2026-01-29T10:00:00.000Z"
+    }
+  ]
+}
