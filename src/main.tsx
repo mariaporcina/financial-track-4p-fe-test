@@ -6,26 +6,18 @@ import {
   createRouter,
   Outlet,
   RouterProvider,
-  Link
 } from '@tanstack/react-router'
 
+import QueryProvider from "./QueryProvider";
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 
-import "@radix-ui/themes/styles.css";
-import './index.css'
+import './theme.css'
+import Home from './views/pages/Home';
+import App from './App';
 
 const rootRoute = createRootRoute({
   component: () => (
     <>
-      <div className="p-2 flex gap-2">
-        <Link to='/' className="[&.active]:font-bold">
-          Home
-        </Link>
-        <Link to="/about" className="[&.active]:font-bold">
-          About
-        </Link>
-      </div>
-
       <Outlet />
     </>
   ),
@@ -34,24 +26,10 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
-  component: function Index() {
-    return (
-      <div className="p-2">
-        <h3>Welcome Home!</h3>
-      </div>
-    )
-  },
+  component: () => <Home />,
 });
 
-const aboutRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/about',
-  component: function About() {
-    return <div className="p-2">Hello from About!</div>
-  },
-})
-
-const routeTree = rootRoute.addChildren([indexRoute, aboutRoute])
+const routeTree = rootRoute.addChildren([indexRoute])
 
 const router = createRouter({
   routeTree,
@@ -65,14 +43,17 @@ declare module '@tanstack/react-router' {
   }
 }
 
-
 const rootElement = document.getElementById('root')!
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
-      <TanStackRouterDevtools router={router} />
+      <QueryProvider>
+        <App>
+          <RouterProvider router={router} />
+          <TanStackRouterDevtools router={router} />
+        </App>
+      </QueryProvider>
     </StrictMode>,
   )
 }
