@@ -6,7 +6,7 @@ import Container from '../Container';
 
 import styles from '../../../index.module.css';
 
-const Header = () => {
+const Header = ({ children }) => {
   return (
     <Container className='flex items-center justify-between py-12'>
       <Link to="/">
@@ -15,7 +15,7 @@ const Header = () => {
         </picture>
       </Link>
 
-      <Button className={`${styles.Button} bg-[#C0E952] text-[#171717] text-sm font-medium`}>Novo valor</Button>
+      { children }
     </Container>
   )
 }

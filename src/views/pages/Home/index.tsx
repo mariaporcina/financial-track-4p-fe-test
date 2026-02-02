@@ -6,6 +6,10 @@ import TransactionList from "../../components/TransactionList"
 import useTransactionViewModel from "../../../viewModels/UseTransactionViewModel";
 import { useQuery } from "@tanstack/react-query";
 import Pagination from "../../components/Pagination";
+import RegisterModal from "../../components/modals/RegisterModal";
+import { Button, Dialog } from "@base-ui/react";
+
+import styles from '../../../index.module.css';
 
 const Home = () => {
   const { fetchAll } = useTransactionViewModel();
@@ -21,15 +25,24 @@ const Home = () => {
 
   return (
     <>
-      <Header />
+      <Header>
+        <RegisterModal>
+          <Dialog.Trigger>
+            <Button className={`${styles.Button} bg-[#C0E952] text-[#171717] text-sm font-medium`}>Novo valor</Button>
+          </Dialog.Trigger>
+        </RegisterModal>
+      </Header>
 
       <Filter />
 
       <Container>
+
         <TransactionList transactions={data} />
 
-        <Pagination />
+        {data?.length ? <Pagination /> : null}
       </Container>
+
+      
     </>
   )
 }
