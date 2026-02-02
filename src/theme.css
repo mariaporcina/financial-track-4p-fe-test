@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+.root {
+  isolation: isolate;
+}
+
+:root {
+  color-scheme: dark;
+}
