@@ -6,6 +6,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
+import type { ReactNode } from "react";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -27,11 +28,11 @@ function getQueryClient() {
   }
 }
 
-export default function QueryProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+type QueryProviderPropsType = {
+  children: ReactNode
+}
+
+export default function QueryProvider({ children }: QueryProviderPropsType) {
   const queryClient = getQueryClient();
 
   return (

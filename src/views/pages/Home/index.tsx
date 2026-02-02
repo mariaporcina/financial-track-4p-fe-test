@@ -27,22 +27,17 @@ const Home = () => {
     <>
       <Header>
         <RegisterModal>
-          <Dialog.Trigger>
-            <Button className={`${styles.Button} bg-[#C0E952] text-[#171717] text-sm font-medium`}>Novo valor</Button>
-          </Dialog.Trigger>
+          <Dialog.Trigger className={`${styles.Button} bg-[#C0E952] text-[#171717] text-sm font-medium`}>Novo valor</Dialog.Trigger>
         </RegisterModal>
       </Header>
 
       <Filter />
 
       <Container>
-
         <TransactionList transactions={data} />
 
         {data?.length ? <Pagination /> : null}
       </Container>
-
-      
     </>
   )
 }

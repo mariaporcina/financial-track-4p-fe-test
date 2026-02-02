@@ -5,8 +5,13 @@ import { Button } from '@base-ui/react/button'
 import Container from '../Container';
 
 import styles from '../../../index.module.css';
+import type { ReactNode } from 'react';
 
-const Header = ({ children }) => {
+type HeaderPropsType = {
+  children: ReactNode
+}
+
+const Header = ({ children }: HeaderPropsType) => {
   return (
     <Container className='flex items-center justify-between py-12'>
       <Link to="/">
