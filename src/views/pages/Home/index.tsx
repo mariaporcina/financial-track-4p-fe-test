@@ -3,21 +3,20 @@ import Filter from "../../components/Filter"
 import Container from "../../components/Container"
 import TransactionList from "../../components/TransactionList"
 
-import useTransactionViewModel from "../../../viewModels/UseTransactionViewModel";
-import { useQuery } from "@tanstack/react-query";
 import Pagination from "../../components/Pagination";
 import RegisterModal from "../../components/modals/RegisterModal";
-import { Button, Dialog } from "@base-ui/react";
+import { Dialog } from "@base-ui/react";
 
 import styles from '../../../index.module.css';
 
-const Home = () => {
-  const { fetchAll } = useTransactionViewModel();
+import { useState } from "react";
+import { useTransactions } from "../../../queries/useTransaction";
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['transactions'],
-    queryFn: fetchAll,
-  });
+const Home = () => {
+  const [type, setType] = useState<"income" | "outcome" | undefined | null>();
+  const [deleted, setDeleted] = useState<boolean>(false);
+
+  const { data, isLoading, error } = useTransactions({ type, deleted });
 
   if (isLoading) return <p>Carregando...</p>
   
@@ -30,8 +29,13 @@ const Home = () => {
           <Dialog.Trigger className={`${styles.Button} bg-[#C0E952] text-[#171717] text-sm font-medium`}>Novo valor</Dialog.Trigger>
         </RegisterModal>
       </Header>
-
-      <Filter />
+      
+      <Filter
+        type={type}
+        setType={setType}
+        deleted={deleted}
+        setDeleted={setDeleted}
+      />
 
       <Container>
         <TransactionList transactions={data} />

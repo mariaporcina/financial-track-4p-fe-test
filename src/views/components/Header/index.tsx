@@ -1,10 +1,8 @@
 
 import logo from '../../../assets/logo.png';
 import { Link } from "@tanstack/react-router";
-import { Button } from '@base-ui/react/button'
 import Container from '../Container';
 
-import styles from '../../../index.module.css';
 import type { ReactNode } from 'react';
 
 type HeaderPropsType = {

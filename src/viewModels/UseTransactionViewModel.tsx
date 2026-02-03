@@ -1,19 +1,27 @@
 import z from 'zod';
 import { TransactionSchema } from '../models/Transaction.schema.ts';
+import type { TransactionFilters } from "../models/TransactionFilters";
 
 const useTransactionViewModel = () => {
-  // const user = ref<User | null>(null);
+  async function fetchAll(filters?: TransactionFilters) {
+    const params = new URLSearchParams();
+    if (filters?.type) {
+      params.set("type", filters.type);
+    }
 
-  async function fetchAll() {
-    const response = await fetch('http://localhost:3000/transactions');
-
+    const response = await fetch(`http://localhost:3000/transactions?${params.toString()}`);
     if (!response.ok) {
       throw new Error('Something went wrong while fetching transactions');
     }
 
-    const data = await response.json();
+    const json = await response.json();
+    const data = z.array(TransactionSchema).parse(json);
 
-    return z.array(TransactionSchema).parse(data);
+    if (filters?.deleted) {
+      return data.filter(t => t.deletedAt !== null);
+    }
+
+    return data.filter(t => t.deletedAt === null);
   }
 
   async function fetchById(id: number) {

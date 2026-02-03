@@ -8,7 +8,6 @@ type TransactionListProps = {
 }
 
 const TransactionList = ({ transactions }: TransactionListProps) => {
-
   if (!transactions || !transactions.length) {
     return (
       <div className="text-center max-w-[320px] mx-auto my-25">
