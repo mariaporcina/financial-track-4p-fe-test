@@ -38,13 +38,37 @@ const TransactionViewModel = () => {
     return TransactionSchema.parse(data);
   }
 
-  async function fetchById(id: number) {
+  async function remove(id: string) {
+    await fetch(`http://localhost:3000/transactions/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        deletedAt: new Date().toISOString(),
+      }),
+    });
+  }
+
+  async function restore(id: string) {
+    await fetch(`http://localhost:3000/transactions/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        deletedAt: null,
+      }),
+    });
+  }
+
+  async function fetchById(id: string) {
     const response = await fetch(`http://localhost:3000/transactions/${id}`);
 
     return response.json();
   }
 
-  return { getAll, create };
+  return { getAll, create, remove, restore };
 }
 
 export default TransactionViewModel;

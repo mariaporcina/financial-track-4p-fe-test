@@ -10,9 +10,10 @@ import { Dialog } from "@base-ui/react";
 import styles from '../../../index.module.css';
 
 import { useQueryTransactions } from "../../../queries/hooks/useQueryTransactions";
-import { useMutationTransactions } from "../../../queries/hooks/useMutationTransactions" 
+import { useCreateTransactions } from "../../../queries/hooks/useCreateTransactions" 
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
+import { useRemoveTransactions } from "../../../queries/hooks/useRemoveTransactions";
 
 
 const Home = () => {
@@ -34,7 +35,7 @@ const Home = () => {
     });
   };
 
-  const { mutateAsync: create } = useMutationTransactions();
+  const { mutateAsync: create } = useCreateTransactions();
   const handleCreateTransaction = async () => {
     await create({
       id: "tx_00" + Math.floor((Math.random() * 100) + 3),
