@@ -30,6 +30,11 @@ export default function RegisterModal({
   addTransaction,
   children
 }: RegisterModalPropsType) {
+
+  const handleToggleChange = (value: "income" | "outcome") => {
+    console.log('value')
+    setSelectedType(value);
+  };
   
   return (
     <Dialog.Root
@@ -79,9 +84,9 @@ export default function RegisterModal({
             </NumberField.Root>
 
             <div className={modalStyles.Actions}>
-              <ToggleGroup defaultValue={['income']} className={modalStyles.ToggleGroup}>
-                <Toggle onPressedChange={() => { setSelectedType('income') }} aria-label="income" value="income" disabled={selectedType === 'income'} className={modalStyles.ToggleButton}>Entrada</Toggle>
-                <Toggle onPressedChange={() => { setSelectedType('outcome') }} aria-label="outcome" value="outcome" disabled={selectedType === 'outcome'} className={modalStyles.ToggleButton}>Saída</Toggle>
+              <ToggleGroup  value={[selectedType]} onValueChange={(value) => setSelectedType(value[0])} defaultValue={['income']} className={modalStyles.ToggleGroup}>
+                <Toggle aria-label="income" value="income" disabled={selectedType === 'income'} className={modalStyles.ToggleButton}>Entrada</Toggle>
+                <Toggle aria-label="outcome" value="outcome" disabled={selectedType === 'outcome'} className={modalStyles.ToggleButton}>Saída</Toggle>
               </ToggleGroup>
 
               <Button type="submit" className={`${styles.Button} bg-[#C0E952] text-[#171717] text-sm font-medium`}>Adicionar</Button>

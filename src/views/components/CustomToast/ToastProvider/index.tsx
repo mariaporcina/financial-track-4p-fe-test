@@ -7,7 +7,7 @@ type ToastProviderPropsType = {
 
 export default function ToastProvider({ children }: ToastProviderPropsType) {
   return (
-    <Toast.Provider>
+    <Toast.Provider limit={1} timeout={500}>
       <Toast.Portal>
         <Toast.Viewport>
           { children }

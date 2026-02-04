@@ -33,10 +33,6 @@ const TransactionViewModel = () => {
       body: JSON.stringify(transaction),
     });
 
-    if (!response.ok) {
-      throw new Error('Something went wrong while adding transaction');
-    }
-
     const data = await response.json();
 
     return TransactionSchema.parse(data);

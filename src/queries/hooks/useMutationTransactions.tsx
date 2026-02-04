@@ -7,26 +7,29 @@ export function useMutationTransactions() {
   const queryClient = useQueryClient();
   const { create } = TransactionViewModel();
 
+  const types = {
+    'income': 'entrada',
+    'outcome': 'saída'
+  }
+
   return useMutation({
     mutationKey: ['transactions'],
     mutationFn: create,
 
     onSuccess: (query) => {
-
-      console.log(query)
-
       toastManager.add({
-        title: `🎉 Valor de entrada adicionado`,
+        title: `🎉 Valor de ${types[query.type]} adicionado`,
         description: 'Já pode visualizar na lista.',
       });
 
-
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
-      
     },
-    onError: (error) => {
+    onError: () => {
 
-      console.log(error)
+      toastManager.add({
+        title: `Oops. Algo deu errado.`,
+        description: 'Tente novamente mais tarde.',
+      });
       
     }
   });
