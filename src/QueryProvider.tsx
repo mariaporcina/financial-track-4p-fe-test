@@ -1,4 +1,3 @@
-// app/QueryProvider.tsx
 "use client";
 
 import {

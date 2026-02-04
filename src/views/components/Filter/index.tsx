@@ -3,29 +3,41 @@ import Container from '../Container';
 
 import FilterButton from './FilterButton';
 
-const Filter = () => {
+type FilterPropsType = {
+  type: "income" | "outcome" | undefined | null
+  deleted: boolean | undefined
+  setFilter: (key: "type" | "deleted", value?: string | boolean) => void
+}
+
+const Filter = ({ type, deleted, setFilter }: FilterPropsType) => {
 
   const filterOptions = [
     {
-      icon: <TokensIcon color="white" className='size-4.5' />,
+      icon: <TokensIcon className='size-4.5' />,
       label: 'Todos',
-      action: () => {}
+      action: () => {
+        setFilter('type', undefined)
+        setFilter('deleted', undefined);
+      }
     },
     {
-      icon: <DownloadIcon color="white" className='size-4.5' />,
+      id: 'income',
+      icon: <DownloadIcon className='size-4.5' />,
       label: 'Entradas',
-      action: () => {}
+      action: () => {
+        setFilter('type', 'income')
+        setFilter('deleted', undefined);
+      }
     },
     {
-      icon: <UploadIcon color="white" className='size-4.5' />,
+      id: 'outcome',
+      icon: <UploadIcon className='size-4.5' />,
       label: 'Saídas',
-      action: () => {}
+      action: () => {
+        setFilter('type', 'outcome')
+        setFilter('deleted', undefined);
+      }
     },
-    {
-      icon: <TrashIcon color="white" className='size-4.5' />,
-      label: 'Excluídos',
-      action: () => {}
-    }
   ];
 
   return (
@@ -33,34 +45,22 @@ const Filter = () => {
       {filterOptions.map((option, index) => (
         <FilterButton
           key={index}
-          className={`${index >= filterOptions.length-1 && "ml-auto"}`}
+          className={`${type === option.id && !deleted ? "text-[#C0E952]" : ""}`}
           icon={option.icon}
           label={option.label}
           action={option.action}
         />
       ))}
-{/*       
-      <Button className={`${styles.Button} flex gap-1.5`}> 
-        <TokensIcon color="white" className='size-4.5' />
-        <span className="text-white text-sm">Todos</span>
-      </Button>
 
-      <Button className={`${styles.Button} flex gap-1.5`}> 
-        <DownloadIcon color="white" className='size-4.5' />
-        <span className="text-white text-sm">Entradas</span>
-      </Button>
-
-      <Button className={`${styles.Button} flex gap-1.5`}> 
-        <UploadIcon color="white" className='size-4.5' />
-        <span className="text-white text-sm">Saídas</span>
-      </Button>
-
-      <div className='flex-2 flex justify-end'>
-        <Button className={`${styles.Button} flex gap-1.5`}> 
-          <TrashIcon color="white" className='size-4.5' />
-          <span className="text-white text-sm">Saídas</span>
-        </Button>
-      </div> */}
+      <FilterButton
+        className={`ml-auto ${deleted ? "text-[#C0E952]" : ""}`}
+        icon={<TrashIcon className='size-4.5' />}
+        label={"Excluídos"}
+        action={() => {
+          setFilter('type', undefined)
+          setFilter('deleted', true)
+        }}
+      />
     </Container>
   )
 }

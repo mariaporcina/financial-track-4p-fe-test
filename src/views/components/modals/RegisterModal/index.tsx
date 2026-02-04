@@ -71,7 +71,7 @@ export default function RegisterModal({ children }: RegisterModalPropsType) {
                 <Toggle onPressedChange={() => { setSelectedType('outcome') }} aria-label="outcome" value="outcome" disabled={selectedType === 'outcome'} className={modalStyles.ToggleButton}>Saída</Toggle>
               </ToggleGroup>
 
-              <Button className={`${styles.Button} bg-[#C0E952] text-[#171717] text-sm font-medium`}>Novo valor</Button>
+              <Button className={`${styles.Button} bg-[#C0E952] text-[#171717] text-sm font-medium`}>Adicionar</Button>
             </div>
           </form>
         </Dialog.Popup>

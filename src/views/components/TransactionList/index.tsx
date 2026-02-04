@@ -1,14 +1,13 @@
 
 import TransactionItem from "./TransactionItem"
 
-import type { Transaction } from "../../../models/Transaction.schema"
+import type { Transaction } from "../../../schemas/Transaction.schema"
 
 type TransactionListProps = {
   transactions?: Transaction[] 
 }
 
 const TransactionList = ({ transactions }: TransactionListProps) => {
-
   if (!transactions || !transactions.length) {
     return (
       <div className="text-center max-w-[320px] mx-auto my-25">

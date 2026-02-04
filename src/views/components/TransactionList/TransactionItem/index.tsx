@@ -1,7 +1,7 @@
 
 import { DownloadIcon, UploadIcon, TrashIcon } from '@radix-ui/react-icons';
 
-import type { Transaction } from "../../../../models/Transaction.schema";
+import type { Transaction } from "../../../../schemas/Transaction.schema";
 import { Button } from '@base-ui/react';
 
 type TransactionItemProps = {
