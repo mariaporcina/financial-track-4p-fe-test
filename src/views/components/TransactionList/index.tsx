@@ -2,6 +2,8 @@
 import TransactionItem from "./TransactionItem"
 
 import type { Transaction } from "../../../schemas/Transaction.schema"
+import { useRemoveTransactions } from "../../../queries/hooks/useRemoveTransactions"
+import { useRestoreTransactions } from "../../../queries/hooks/useRestoreTransactions"
 
 type TransactionListProps = {
   transactions?: Transaction[] 
@@ -17,10 +19,19 @@ const TransactionList = ({ transactions }: TransactionListProps) => {
     );
   }
 
+  const { mutateAsync: remove } = useRemoveTransactions();
+
+  const { mutateAsync: restore } = useRestoreTransactions();
+
   return (
     <ul className="border-1 border-[#262626] rounded-2xl overflow-hidden mt-5">
       {transactions?.map((transaction) => (
-        <TransactionItem key={transaction.id} transaction={transaction} />
+        <TransactionItem
+          key={transaction.id}
+          transaction={transaction}
+          remove={remove}
+          restore={restore}
+        />
       ))}
     </ul>
   )

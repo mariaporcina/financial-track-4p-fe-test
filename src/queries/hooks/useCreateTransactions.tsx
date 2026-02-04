@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import TransactionViewModel from "../../viewModels/TransactionViewModel";
 import { Toast } from "@base-ui/react";
 
-export function useMutationTransactions() {
+export function useCreateTransactions() {
   const toastManager = Toast.useToastManager();
   const queryClient = useQueryClient();
   const { create } = TransactionViewModel();

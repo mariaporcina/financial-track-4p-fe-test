@@ -1,5 +1,4 @@
 import { Toast } from "@base-ui/react";
-import { Cross2Icon } from "@radix-ui/react-icons";
 import styles from "../index.module.css";
 
 export const ToastList = () => {
