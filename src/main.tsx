@@ -7,14 +7,13 @@ import {
   Outlet,
   RouterProvider,
 } from '@tanstack/react-router'
-
-import QueryProvider from "./QueryProvider";
+import QueryProvider from "./queries/provider/QueryProvider";
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-
 import './theme.css'
 import Home from './views/pages/Home';
 import App from './App';
 import { SearchSchema } from './schemas/Search.schema';
+import ToastProvider from './views/components/CustomToast/ToastProvider';
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -51,10 +50,12 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <QueryProvider>
-        <App>
-          <RouterProvider router={router} />
-          <TanStackRouterDevtools router={router} />
-        </App>
+        <ToastProvider>
+          <App>
+            <RouterProvider router={router} />
+            <TanStackRouterDevtools router={router} />
+          </App>
+        </ToastProvider>
       </QueryProvider>
     </StrictMode>,
   )

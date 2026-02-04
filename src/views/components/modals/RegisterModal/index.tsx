@@ -3,7 +3,6 @@ import * as React from 'react';
 import { Dialog } from '@base-ui/react/dialog';
 import { Button, NumberField, Toggle, ToggleGroup } from '@base-ui/react';
 import modalStyles from './index.module.css';
-import { useState } from "react";
 
 import { Cross2Icon } from "@radix-ui/react-icons";
 
@@ -11,14 +10,27 @@ import styles from '../../../../index.module.css';
 import { formatCurrency, parseCurrency } from '../../../../utils/HandleNumberField';
 
 type RegisterModalPropsType = {
-  children: React.ReactNode
+  children: React.ReactNode,
+  dialogOpen: boolean,
+  setDialogOpen: React.Dispatch<React.SetStateAction<boolean>>
+  amountValue: number,
+  setAmounValue: React.Dispatch<React.SetStateAction<number>>
+  selectedType: "income" | "outcome",
+  setSelectedType: React.Dispatch<React.SetStateAction<"income" | "outcome">>,
+  addTransaction: () => void
 }
 
-export default function RegisterModal({ children }: RegisterModalPropsType) {
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [amountValue, setAmounValue] = useState(0);
-  const [selectedType, setSelectedType] = useState('income');
-
+export default function RegisterModal({
+  dialogOpen,
+  setDialogOpen,
+  amountValue,
+  setAmounValue,
+  selectedType,
+  setSelectedType,
+  addTransaction,
+  children
+}: RegisterModalPropsType) {
+  
   return (
     <Dialog.Root
       open={dialogOpen}
@@ -50,6 +62,7 @@ export default function RegisterModal({ children }: RegisterModalPropsType) {
             className={modalStyles.TextareaContainer}
             onSubmit={(event) => {
               event.preventDefault();
+              addTransaction();
               setDialogOpen(false);
             }}
           >
@@ -71,7 +84,7 @@ export default function RegisterModal({ children }: RegisterModalPropsType) {
                 <Toggle onPressedChange={() => { setSelectedType('outcome') }} aria-label="outcome" value="outcome" disabled={selectedType === 'outcome'} className={modalStyles.ToggleButton}>Saída</Toggle>
               </ToggleGroup>
 
-              <Button className={`${styles.Button} bg-[#C0E952] text-[#171717] text-sm font-medium`}>Adicionar</Button>
+              <Button type="submit" className={`${styles.Button} bg-[#C0E952] text-[#171717] text-sm font-medium`}>Adicionar</Button>
             </div>
           </form>
         </Dialog.Popup>

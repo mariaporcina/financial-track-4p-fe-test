@@ -15,6 +15,46 @@
       "deletedAt": null,
       "createdAt": "2026-01-29T10:00:00.000Z",
       "updatedAt": "2026-01-29T10:00:00.000Z"
+    },
+    {
+      "id": "tx_0080",
+      "type": "income",
+      "amount": 0,
+      "deletedAt": null,
+      "createdAt": "2026-02-04T17:17:27.094Z",
+      "updatedAt": "2026-02-04T17:17:27.094Z"
+    },
+    {
+      "id": "tx_00100",
+      "type": "income",
+      "amount": 0,
+      "deletedAt": null,
+      "createdAt": "2026-02-04T17:18:22.183Z",
+      "updatedAt": "2026-02-04T17:18:22.183Z"
+    },
+    {
+      "id": "tx_0025",
+      "type": "outcome",
+      "amount": 200,
+      "deletedAt": null,
+      "createdAt": "2026-02-04T17:18:33.064Z",
+      "updatedAt": "2026-02-04T17:18:33.064Z"
+    },
+    {
+      "id": "tx_0039",
+      "type": "income",
+      "amount": 0,
+      "deletedAt": null,
+      "createdAt": "2026-02-04T17:20:24.716Z",
+      "updatedAt": "2026-02-04T17:20:24.716Z"
+    },
+    {
+      "id": "tx_0051",
+      "type": "income",
+      "amount": 0,
+      "deletedAt": null,
+      "createdAt": "2026-02-04T17:22:05.927Z",
+      "updatedAt": "2026-02-04T17:22:05.927Z"
     }
   ]
 }
