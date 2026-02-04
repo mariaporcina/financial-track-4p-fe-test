@@ -14,6 +14,7 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import './theme.css'
 import Home from './views/pages/Home';
 import App from './App';
+import { SearchSchema } from './schemas/Search.schema';
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -26,6 +27,7 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
+  validateSearch: SearchSchema,
   component: () => <Home />,
 });
 

@@ -1,10 +1,9 @@
-// queries/useTransactions.ts
 import { useQuery } from "@tanstack/react-query";
-import useTransactionViewModel from "../viewModels/UseTransactionViewModel";
+import TransactionViewModel from "../viewModels/TransactionViewModel";
 import type { TransactionFilters } from "../models/TransactionFilters";
 
 export function useTransactions(filters?: TransactionFilters) {
-  const { fetchAll } = useTransactionViewModel();
+  const { fetchAll } = TransactionViewModel();
 
   return useQuery({
     queryKey: ["transactions", filters],

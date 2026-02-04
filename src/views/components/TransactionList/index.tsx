@@ -1,7 +1,7 @@
 
 import TransactionItem from "./TransactionItem"
 
-import type { Transaction } from "../../../models/Transaction.schema"
+import type { Transaction } from "../../../schemas/Transaction.schema"
 
 type TransactionListProps = {
   transactions?: Transaction[] 

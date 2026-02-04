@@ -2,24 +2,22 @@ import { TokensIcon, DownloadIcon, UploadIcon, TrashIcon } from '@radix-ui/react
 import Container from '../Container';
 
 import FilterButton from './FilterButton';
-import type { Dispatch, SetStateAction } from 'react';
 
 type FilterPropsType = {
   type: "income" | "outcome" | undefined | null
-  setType: Dispatch<SetStateAction<"income" | "outcome" | undefined | null>>
-  deleted: boolean
-  setDeleted: Dispatch<SetStateAction<boolean>>
+  deleted: boolean | undefined
+  setFilter: (key: "type" | "deleted", value?: string | boolean) => void
 }
 
-const Filter = ({ type, setType, deleted, setDeleted }: FilterPropsType) => {
+const Filter = ({ type, deleted, setFilter }: FilterPropsType) => {
 
   const filterOptions = [
     {
       icon: <TokensIcon className='size-4.5' />,
       label: 'Todos',
       action: () => {
-        setType(undefined);
-        setDeleted(false)
+        setFilter('type', undefined)
+        setFilter('deleted', undefined);
       }
     },
     {
@@ -27,8 +25,8 @@ const Filter = ({ type, setType, deleted, setDeleted }: FilterPropsType) => {
       icon: <DownloadIcon className='size-4.5' />,
       label: 'Entradas',
       action: () => {
-        setType('income');
-        setDeleted(false)
+        setFilter('type', 'income')
+        setFilter('deleted', undefined);
       }
     },
     {
@@ -36,8 +34,8 @@ const Filter = ({ type, setType, deleted, setDeleted }: FilterPropsType) => {
       icon: <UploadIcon className='size-4.5' />,
       label: 'Saídas',
       action: () => {
-        setType('outcome');
-        setDeleted(false)
+        setFilter('type', 'outcome')
+        setFilter('deleted', undefined);
       }
     },
   ];
@@ -47,9 +45,7 @@ const Filter = ({ type, setType, deleted, setDeleted }: FilterPropsType) => {
       {filterOptions.map((option, index) => (
         <FilterButton
           key={index}
-          className={`
-            ${type === option.id ? "text-[#C0E952]" : ""}
-          `}
+          className={`${type === option.id && !deleted ? "text-[#C0E952]" : ""}`}
           icon={option.icon}
           label={option.label}
           action={option.action}
@@ -61,8 +57,8 @@ const Filter = ({ type, setType, deleted, setDeleted }: FilterPropsType) => {
         icon={<TrashIcon className='size-4.5' />}
         label={"Excluídos"}
         action={() => {
-          setType(null)
-          setDeleted(true)
+          setFilter('type', undefined)
+          setFilter('deleted', true)
         }}
       />
     </Container>

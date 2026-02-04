@@ -9,14 +9,25 @@ import { Dialog } from "@base-ui/react";
 
 import styles from '../../../index.module.css';
 
-import { useState } from "react";
 import { useTransactions } from "../../../queries/useTransaction";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 
 const Home = () => {
-  const [type, setType] = useState<"income" | "outcome" | undefined | null>();
-  const [deleted, setDeleted] = useState<boolean>(false);
+  const search = useSearch({ from: '/' });
+  const navigate = useNavigate({ from: '/' });
+
+  const { type, deleted } = search;
 
   const { data, isLoading, error } = useTransactions({ type, deleted });
+
+  const setFilter = (key: "type" | "deleted", value?: string | boolean) => {
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        [key]: value,
+      }),
+    });
+  };
 
   if (isLoading) return <p>Carregando...</p>
   
@@ -32,9 +43,8 @@ const Home = () => {
       
       <Filter
         type={type}
-        setType={setType}
+        setFilter={setFilter}
         deleted={deleted}
-        setDeleted={setDeleted}
       />
 
       <Container>

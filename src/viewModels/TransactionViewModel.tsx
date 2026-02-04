@@ -1,8 +1,8 @@
 import z from 'zod';
-import { TransactionSchema } from '../models/Transaction.schema.ts';
-import type { TransactionFilters } from "../models/TransactionFilters";
+import { TransactionSchema } from '../schemas/Transaction.schema.ts';
+import type { TransactionFilters } from "../models/TransactionFilters.ts";
 
-const useTransactionViewModel = () => {
+const TransactionViewModel = () => {
   async function fetchAll(filters?: TransactionFilters) {
     const params = new URLSearchParams();
     if (filters?.type) {
@@ -33,4 +33,4 @@ const useTransactionViewModel = () => {
   return { fetchAll };
 }
 
-export default useTransactionViewModel;
+export default TransactionViewModel;
