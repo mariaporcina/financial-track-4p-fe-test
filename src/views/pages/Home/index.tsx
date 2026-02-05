@@ -30,12 +30,8 @@ const Home = () => {
   const { mutateAsync: create } = useCreateTransactions();
   const handleCreateTransaction = async () => {
     await create({
-      id: "tx_00" + Math.floor((Math.random() * 100) + 3),
       type: selectedType,
       amount: amountValue,
-      deletedAt: null,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
     });
   }
   

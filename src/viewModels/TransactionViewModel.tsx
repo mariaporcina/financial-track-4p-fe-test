@@ -24,18 +24,23 @@ const TransactionViewModel = () => {
     return data.filter(t => t.deletedAt === null);
   }
 
-  async function create(transaction: Transaction) {
+  async function create(data: Partial<Transaction>) {
     const response = await fetch(`http://localhost:3000/transactions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(transaction),
+      body: JSON.stringify({
+        ...data,
+        deletedAt: null,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      }),
     });
 
-    const data = await response.json();
+    const json = await response.json();
 
-    return TransactionSchema.parse(data);
+    return TransactionSchema.parse(json);
   }
 
   async function remove(id: string) {
@@ -46,6 +51,7 @@ const TransactionViewModel = () => {
       },
       body: JSON.stringify({
         deletedAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       }),
     });
   }
@@ -58,8 +64,28 @@ const TransactionViewModel = () => {
       },
       body: JSON.stringify({
         deletedAt: null,
+        updatedAt: new Date().toISOString(),
       }),
     });
+  }
+
+  async function update(params: {id: string, data: Partial<Transaction>}) {
+    const { id, data } = params;
+
+    const response = await fetch(`http://localhost:3000/transactions/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...data,
+        updatedAt: new Date().toISOString(),
+      }),
+    });
+
+    const json = await response.json();
+
+    return TransactionSchema.parse(json);
   }
 
   async function getById(id: string) {
@@ -73,7 +99,7 @@ const TransactionViewModel = () => {
     return TransactionSchema.parse(data);
   }
 
-  return { getAll, getById, create, remove, restore };
+  return { getAll, getById, create, update, remove, restore };
 }
 
 export default TransactionViewModel;

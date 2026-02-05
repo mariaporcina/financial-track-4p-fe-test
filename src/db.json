@@ -6,7 +6,7 @@
       "amount": 125000,
       "deletedAt": null,
       "createdAt": "2026-01-28T12:00:00.000Z",
-      "updatedAt": "2026-01-28T12:00:00.000Z"
+      "updatedAt": "2026-02-05T17:21:17.526Z"
     },
     {
       "id": "tx_002",
@@ -14,39 +14,7 @@
       "amount": 32000,
       "deletedAt": null,
       "createdAt": "2026-01-29T10:00:00.000Z",
-      "updatedAt": "2026-01-29T10:00:00.000Z"
-    },
-    {
-      "id": "tx_0012",
-      "type": "income",
-      "amount": 0,
-      "deletedAt": "2026-02-05T16:47:01.691Z",
-      "createdAt": "2026-02-04T20:27:22.443Z",
-      "updatedAt": "2026-02-04T20:27:22.443Z"
-    },
-    {
-      "id": "tx_0011",
-      "type": "outcome",
-      "amount": 0,
-      "deletedAt": "2026-02-05T16:47:03.206Z",
-      "createdAt": "2026-02-04T20:27:26.365Z",
-      "updatedAt": "2026-02-04T20:27:26.365Z"
-    },
-    {
-      "id": "tx_0074",
-      "type": "income",
-      "amount": 1000,
-      "deletedAt": "2026-02-04T21:22:36.043Z",
-      "createdAt": "2026-02-04T20:40:51.374Z",
-      "updatedAt": "2026-02-04T20:40:51.374Z"
-    },
-    {
-      "id": "tx_0088",
-      "type": "outcome",
-      "amount": 40,
-      "deletedAt": null,
-      "createdAt": "2026-02-04T20:41:02.946Z",
-      "updatedAt": "2026-02-04T20:41:02.946Z"
+      "updatedAt": "2026-02-05T17:44:01.115Z"
     }
   ]
 }
