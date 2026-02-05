@@ -11,6 +11,7 @@ import { formatCurrency, parseCurrency } from '../../../../utils/HandleNumberFie
 import { useNavigate, useParams } from '@tanstack/react-router';
 import { useGetOneTransaction } from '../../../../queries/hooks/useGetOneTransaction';
 import { transactionDetailRoute } from '../../../../main';
+import { useUpdateTransactions } from '../../../../queries/hooks/useUpdateTransactions';
 
 export default function ViewModal() {
   const [dialogOpen, setDialogOpen] = useState<boolean>(true);
@@ -20,15 +21,33 @@ export default function ViewModal() {
   const navigate = useNavigate();
   const { id } = useParams({ from: transactionDetailRoute.id });
 
-  const { data, isLoading } = useGetOneTransaction(id);
+  const { data, isLoading: isFetching } = useGetOneTransaction(id);
 
   useEffect(() => {
-    if(isLoading || !data) return;
+    if(isFetching || !data) return;
     
     setAmounValue(data?.amount);
     setSelectedType(data?.type);
     
-  }, [data, isLoading]);
+  }, [data, isFetching]);
+
+  const { mutateAsync: update, isPending: isUpdating } = useUpdateTransactions();
+
+  const handleUpdateTransaction = async () => {
+    if(isFetching || !data) return;
+
+    const payload = {
+      id: data.id,
+      data: {
+        type: selectedType,
+        amount: amountValue,
+      }
+    }
+
+    await update(payload);
+  }
+
+  const isLoading = isFetching || isUpdating;
   
   return (
     <Dialog.Root
@@ -70,8 +89,8 @@ export default function ViewModal() {
                 className={modalStyles.TextareaContainer}
                 onSubmit={(event) => {
                   event.preventDefault();
+                  handleUpdateTransaction();
                   navigate({ to: '/transactions' });
-                  setDialogOpen(false);
                 }}
               >
                 <NumberField.Root>

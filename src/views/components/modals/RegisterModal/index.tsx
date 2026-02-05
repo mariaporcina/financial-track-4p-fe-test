@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useEffect } from 'react';
 import { Dialog } from '@base-ui/react/dialog';
 import { Button, NumberField, Toggle, ToggleGroup } from '@base-ui/react';
 import modalStyles from './index.module.css';
@@ -8,8 +7,6 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 
 import styles from '../../../../index.module.css';
 import { formatCurrency, parseCurrency } from '../../../../utils/HandleNumberField';
-import { useNavigate, useSearch } from '@tanstack/react-router';
-import { useGetOneTransaction } from '../../../../queries/hooks/useGetOneTransaction';
 
 type RegisterModalPropsType = {
   dialogOpen: boolean,
@@ -35,9 +32,7 @@ export default function RegisterModal({
     <Dialog.Root
       open={dialogOpen}
       onOpenChange={(open) => {
-        if(!open) {
-          setAmounValue(0);
-        }
+        setAmounValue(0);
 
         setDialogOpen(open);
       }}
