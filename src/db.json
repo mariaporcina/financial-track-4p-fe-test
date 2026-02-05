@@ -12,7 +12,7 @@
       "id": "tx_002",
       "type": "outcome",
       "amount": 32000,
-      "deletedAt": "2026-02-05T01:00:08.343Z",
+      "deletedAt": null,
       "createdAt": "2026-01-29T10:00:00.000Z",
       "updatedAt": "2026-01-29T10:00:00.000Z"
     },
@@ -20,7 +20,7 @@
       "id": "tx_0012",
       "type": "income",
       "amount": 0,
-      "deletedAt": "2026-02-04T21:29:48.199Z",
+      "deletedAt": "2026-02-05T16:47:01.691Z",
       "createdAt": "2026-02-04T20:27:22.443Z",
       "updatedAt": "2026-02-04T20:27:22.443Z"
     },
@@ -28,7 +28,7 @@
       "id": "tx_0011",
       "type": "outcome",
       "amount": 0,
-      "deletedAt": null,
+      "deletedAt": "2026-02-05T16:47:03.206Z",
       "createdAt": "2026-02-04T20:27:26.365Z",
       "updatedAt": "2026-02-04T20:27:26.365Z"
     },

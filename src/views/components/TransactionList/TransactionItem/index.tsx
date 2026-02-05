@@ -3,22 +3,20 @@ import { DownloadIcon, UploadIcon, TrashIcon } from '@radix-ui/react-icons';
 
 import type { Transaction } from "../../../../schemas/Transaction.schema";
 import { Button } from '@base-ui/react';
-import { Link, useNavigate, useSearch } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 
 type TransactionItemProps = {
   transaction: Transaction
   remove: (id: string) => Promise<void>
   restore: (id: string) => Promise<void>
-  view: (id: string) => void
 }
 
-const TransactionItem = ({ transaction, remove, restore, view }: TransactionItemProps) => {
+const TransactionItem = ({ transaction, remove, restore,  }: TransactionItemProps) => {
   const { id, type, amount, deletedAt } = transaction;
 
   const isOutcome = type === 'outcome';
 
   const navigate = useNavigate();
-  const search = useSearch({ from: '/transactions' });
 
   const handleClick = () => {
     navigate({ to: '/transactions/$id', params: { id } })
@@ -26,10 +24,6 @@ const TransactionItem = ({ transaction, remove, restore, view }: TransactionItem
 
   return (
     <li onClick={handleClick} className={`cursor-pointer flex items-center gap-2 bg-[#171717] px-5 py-4 border-b border-1 border-[#262626] ${isOutcome ? 'text-[#DB2777]' : 'text-[#10B981]'} `}>
-      {/* <Link
-      to="/transactions/$id"
-      params={{ id: transaction.id }}
-      ></Link> */}
       {isOutcome ? <UploadIcon /> : <DownloadIcon />}
 
       <span className="flex-2">{amount}</span>

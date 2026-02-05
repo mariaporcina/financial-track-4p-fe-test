@@ -1,15 +1,29 @@
 
 import TransactionItem from "./TransactionItem"
-import type { Transaction } from "../../../schemas/Transaction.schema"
+import { Outlet, useSearch } from "@tanstack/react-router";
+import { useQueryTransactions } from "../../../queries/hooks/useQueryTransactions";
+import { useRemoveTransactions } from "../../../queries/hooks/useRemoveTransactions";
+import { useRestoreTransactions } from "../../../queries/hooks/useRestoreTransactions";
+import Pagination from "../Pagination";
 
-type TransactionListProps = {
-  transactions?: Transaction[]
-  handleRemove: (id: string) => Promise<void>
-  handleRestore: (id: string) => Promise<void> 
-  handleItemClick: (id: string) => void
-}
+const TransactionList = () => {
+  const search = useSearch({ from: '/transactions' });
 
-const TransactionList = ({ transactions, handleRemove, handleRestore, handleItemClick }: TransactionListProps) => {
+  const { type, deleted } = search;
+  const { data: transactions, isLoading } = useQueryTransactions({ type, deleted });
+
+  const { mutateAsync: remove } = useRemoveTransactions();
+  
+  const { mutateAsync: restore } = useRestoreTransactions();
+
+  if (isLoading) {
+    return (
+      <div className="text-center max-w-[320px] mx-auto my-25">
+        <p className="text-[#FAFAFA] text-md">Carregando...</p>
+      </div>
+    );
+  }
+
   if (!transactions || !transactions.length) {
     return (
       <div className="text-center max-w-[320px] mx-auto my-25">
@@ -20,17 +34,22 @@ const TransactionList = ({ transactions, handleRemove, handleRestore, handleItem
   }
 
   return (
-    <ul className="border-1 border-[#262626] rounded-2xl overflow-hidden mt-5">
-      {transactions?.map((transaction) => (
-        <TransactionItem
-          key={transaction.id}
-          transaction={transaction}
-          remove={handleRemove}
-          restore={handleRestore}
-          view={handleItemClick}
-        />
-      ))}
-    </ul>
+    <>
+      <ul className="border-1 border-[#262626] rounded-2xl overflow-hidden mt-5">
+        {transactions?.map((transaction) => (
+          <TransactionItem
+            key={transaction.id}
+            transaction={transaction}
+            remove={remove}
+            restore={restore}
+          />
+        ))}
+      </ul>
+    
+      {transactions?.length ? <Pagination /> : null}
+
+      <Outlet />
+    </>
   )
 }
 
