@@ -1,25 +1,16 @@
 
 import logo from '../../../assets/logo.png';
 import { Link } from "@tanstack/react-router";
-import Container from '../Container';
 
-import type { ReactNode } from 'react';
-
-type HeaderPropsType = {
-  children: ReactNode
-}
-
-const Header = ({ children }: HeaderPropsType) => {
+const Header = () => {
   return (
-    <Container className='flex items-center justify-between py-12'>
-      <Link to="/">
+    <>
+      <Link to="/transactions">
         <picture>
           <img src={logo} alt="Planey Logo" />
         </picture>
       </Link>
-
-      { children }
-    </Container>
+    </>
   )
 }
 

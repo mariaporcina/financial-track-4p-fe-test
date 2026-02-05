@@ -1,19 +1,12 @@
 import Header from "../../components/Header"
 import Filter from "../../components/Filter"
 import Container from "../../components/Container"
-import TransactionList from "../../components/TransactionList"
 
-import Pagination from "../../components/Pagination";
 import RegisterModal from "../../components/modals/RegisterModal";
-import { Dialog } from "@base-ui/react";
 
-import styles from '../../../index.module.css';
-
-import { useQueryTransactions } from "../../../queries/hooks/useQueryTransactions";
 import { useCreateTransactions } from "../../../queries/hooks/useCreateTransactions" 
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Outlet, useNavigate, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
-import { useRemoveTransactions } from "../../../queries/hooks/useRemoveTransactions";
 
 
 const Home = () => {
@@ -21,11 +14,10 @@ const Home = () => {
   const [amountValue, setAmounValue] = useState<number>(0);
   const [selectedType, setSelectedType] = useState<"income" | "outcome">('income');
 
-  const search = useSearch({ from: '/' });
-  const navigate = useNavigate({ from: '/' });
+  const search = useSearch({ from: '/transactions' });
+  const navigate = useNavigate({ from: '/transactions' });
 
   const { type, deleted } = search;
-  const { data, isLoading, error } = useQueryTransactions({ type, deleted });
   const setFilter = (key: "type" | "deleted", value?: string | boolean) => {
     navigate({
       search: (prev) => ({
@@ -47,36 +39,30 @@ const Home = () => {
     });
   }
   
-  if (isLoading) return <p>Carregando...</p>
-  
-  if (error) return <p>Erro ao carregar</p>
-
   return (
     <>
-      <Header>
-        <RegisterModal
-          dialogOpen={dialogOpen}
-          setDialogOpen={setDialogOpen}
-          amountValue={amountValue}
-          setAmounValue={setAmounValue}
-          selectedType={selectedType}
-          setSelectedType={setSelectedType}
-          addTransaction={handleCreateTransaction}
-        >
-          <Dialog.Trigger className={`${styles.Button} bg-[#C0E952] text-[#171717] text-sm font-medium`}>Novo valor</Dialog.Trigger>
-        </RegisterModal>
-      </Header>
-      
-      <Filter
-        type={type}
-        setFilter={setFilter}
-        deleted={deleted}
-      />
-
       <Container>
-        <TransactionList transactions={data} />
+        <div className="flex justify-between my-15">
+          <Header />
 
-        {data?.length ? <Pagination /> : null}
+          <RegisterModal
+            dialogOpen={dialogOpen}
+            setDialogOpen={setDialogOpen}
+            amountValue={amountValue}
+            setAmounValue={setAmounValue}
+            selectedType={selectedType}
+            setSelectedType={setSelectedType}
+            addTransaction={handleCreateTransaction}
+          />
+        </div>
+        
+        <Filter
+          type={type}
+          setFilter={setFilter}
+          deleted={deleted}
+        />
+        
+        <Outlet />
       </Container>
     </>
   )

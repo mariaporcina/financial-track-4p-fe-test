@@ -41,7 +41,7 @@ const Filter = ({ type, deleted, setFilter }: FilterPropsType) => {
   ];
 
   return (
-    <Container className='flex items-center'>
+    <div className='flex items-center gap-2 mt-5'>
       {filterOptions.map((option, index) => (
         <FilterButton
           key={index}
@@ -61,7 +61,7 @@ const Filter = ({ type, deleted, setFilter }: FilterPropsType) => {
           setFilter('deleted', true)
         }}
       />
-    </Container>
+    </div>
   )
 }
 

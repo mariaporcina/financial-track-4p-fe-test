@@ -1,5 +1,5 @@
-'use client';
 import * as React from 'react';
+import { useEffect } from 'react';
 import { Dialog } from '@base-ui/react/dialog';
 import { Button, NumberField, Toggle, ToggleGroup } from '@base-ui/react';
 import modalStyles from './index.module.css';
@@ -8,9 +8,10 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 
 import styles from '../../../../index.module.css';
 import { formatCurrency, parseCurrency } from '../../../../utils/HandleNumberField';
+import { useNavigate, useSearch } from '@tanstack/react-router';
+import { useGetOneTransaction } from '../../../../queries/hooks/useGetOneTransaction';
 
 type RegisterModalPropsType = {
-  children: React.ReactNode,
   dialogOpen: boolean,
   setDialogOpen: React.Dispatch<React.SetStateAction<boolean>>
   amountValue: number,
@@ -28,25 +29,21 @@ export default function RegisterModal({
   selectedType,
   setSelectedType,
   addTransaction,
-  children
 }: RegisterModalPropsType) {
-
-  const handleToggleChange = (value: "income" | "outcome") => {
-    console.log('value')
-    setSelectedType(value);
-  };
   
   return (
     <Dialog.Root
       open={dialogOpen}
       onOpenChange={(open) => {
-        setAmounValue(0);
+        if(!open) {
+          setAmounValue(0);
+        }
 
         setDialogOpen(open);
       }}
     >
 
-      { children }
+      <Dialog.Trigger className={`${styles.Button} bg-[#C0E952] text-[#171717] text-sm font-medium`}>Novo valor</Dialog.Trigger>
 
       <Dialog.Portal>
         <Dialog.Backdrop className={modalStyles.Backdrop} />

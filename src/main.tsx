@@ -4,7 +4,6 @@ import {
   createRootRoute,
   createRoute,
   createRouter,
-  Outlet,
   RouterProvider,
 } from '@tanstack/react-router'
 import QueryProvider from "./queries/provider/QueryProvider";
@@ -14,23 +13,27 @@ import Home from './views/pages/Home';
 import App from './App';
 import { SearchSchema } from './schemas/Search.schema';
 import ToastProvider from './views/components/CustomToast/ToastProvider';
+import ViewModal from './views/components/modals/ViewModal';
+import TransactionList from './views/components/TransactionList';
 
 const rootRoute = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-    </>
-  ),
+  component: () => <Home />,
 });
 
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/',
+  path: '/transactions',
   validateSearch: SearchSchema,
-  component: () => <Home />,
+  component: () => <TransactionList />,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute])
+export const transactionDetailRoute = createRoute({
+  getParentRoute: () => indexRoute,
+  path: '$id',
+  component: () => <ViewModal />,
+});
+
+const routeTree = rootRoute.addChildren([indexRoute, transactionDetailRoute])
 
 const router = createRouter({
   routeTree,
