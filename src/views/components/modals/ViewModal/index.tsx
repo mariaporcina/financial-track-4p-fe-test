@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { useEffect } from 'react';
+
+import { useEffect, useState } from 'react';
 import { Dialog } from '@base-ui/react/dialog';
 import { Button, NumberField, Toggle, ToggleGroup } from '@base-ui/react';
 import modalStyles from './index.module.css';
@@ -8,39 +8,39 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 
 import styles from '../../../../index.module.css';
 import { formatCurrency, parseCurrency } from '../../../../utils/HandleNumberField';
-import { useNavigate, useSearch } from '@tanstack/react-router';
+import { useNavigate, useParams, useSearch } from '@tanstack/react-router';
 import { useGetOneTransaction } from '../../../../queries/hooks/useGetOneTransaction';
+import { transactionDetailRoute } from '../../../../main';
 
-type RegisterModalPropsType = {
-  dialogOpen: boolean,
-  setDialogOpen: React.Dispatch<React.SetStateAction<boolean>>
-  amountValue: number,
-  setAmounValue: React.Dispatch<React.SetStateAction<number>>
-  selectedType: "income" | "outcome",
-  setSelectedType: React.Dispatch<React.SetStateAction<"income" | "outcome">>,
-  addTransaction: () => void
+type ViewModalPropsType = {
+
 }
 
-export default function RegisterModal({
-  dialogOpen,
-  setDialogOpen,
-  amountValue,
-  setAmounValue,
-  selectedType,
-  setSelectedType,
-  addTransaction,
-}: RegisterModalPropsType) {
+export default function ViewModal({ }: ViewModalPropsType) {
+  const [dialogOpen, setDialogOpen] = useState<boolean>(true);
+  const [amountValue, setAmounValue] = useState<number>(0);
+  const [selectedType, setSelectedType] = useState<"income" | "outcome">('income');
+
+  const navigate = useNavigate();
+  const { id } = useParams({ from: transactionDetailRoute.id });
+
+  const { data, isLoading, error } = useGetOneTransaction(id);
+
+  useEffect(() => {
+    if(isLoading || !data) return;
+    
+    setAmounValue(data?.amount);
+    setSelectedType(data?.type);
+    
+  }, [data, isLoading]);
+
+  if (isLoading) {
+    return <div>Carregando…</div>;
+  }
   
   return (
     <Dialog.Root
       open={dialogOpen}
-      onOpenChange={(open) => {
-        if(!open) {
-          setAmounValue(0);
-        }
-
-        setDialogOpen(open);
-      }}
     >
 
       <Dialog.Trigger className={`${styles.Button} bg-[#C0E952] text-[#171717] text-sm font-medium`}>Novo valor</Dialog.Trigger>
@@ -53,7 +53,7 @@ export default function RegisterModal({
             <Dialog.Title className={modalStyles.Title}>Quanto você quer adicionar?</Dialog.Title>
             
             <span
-              onClick={() => { setDialogOpen(false) }}
+              onClick={() => { navigate({ to: '/transactions' }); setDialogOpen(false) }}
               className='cursor-pointer -m-1.5 p-1.5 bg-[#262626] rounded-full'
             >
               <Cross2Icon className='size-4.5 text-[#737373]' />
@@ -64,7 +64,7 @@ export default function RegisterModal({
             className={modalStyles.TextareaContainer}
             onSubmit={(event) => {
               event.preventDefault();
-              addTransaction();
+              navigate({ to: '/transactions' });
               setDialogOpen(false);
             }}
           >

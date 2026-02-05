@@ -5,21 +5,15 @@ import Container from '../Container';
 
 import type { ReactNode } from 'react';
 
-type HeaderPropsType = {
-  children: ReactNode
-}
-
-const Header = ({ children }: HeaderPropsType) => {
+const Header = () => {
   return (
-    <Container className='flex items-center justify-between py-12'>
+    <>
       <Link to="/">
         <picture>
           <img src={logo} alt="Planey Logo" />
         </picture>
       </Link>
-
-      { children }
-    </Container>
+    </>
   )
 }
 

@@ -14,6 +14,7 @@ import Home from './views/pages/Home';
 import App from './App';
 import { SearchSchema } from './schemas/Search.schema';
 import ToastProvider from './views/components/CustomToast/ToastProvider';
+import ViewModal from './views/components/modals/ViewModal';
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -25,12 +26,18 @@ const rootRoute = createRootRoute({
 
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/',
+  path: '/transactions',
   validateSearch: SearchSchema,
   component: () => <Home />,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute])
+export const transactionDetailRoute = createRoute({
+  getParentRoute: () => indexRoute,
+  path: '$id',
+  component: () => <ViewModal />,
+});
+
+const routeTree = rootRoute.addChildren([indexRoute, transactionDetailRoute])
 
 const router = createRouter({
   routeTree,

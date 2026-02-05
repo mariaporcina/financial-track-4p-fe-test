@@ -62,13 +62,18 @@ const TransactionViewModel = () => {
     });
   }
 
-  async function fetchById(id: string) {
+  async function getById(id: string) {
     const response = await fetch(`http://localhost:3000/transactions/${id}`);
+    
+    if (!response.ok) {
+      throw new Error('Something went wrong while fetching transactions');
+    }
 
-    return response.json();
+    const data = await response.json();
+    return TransactionSchema.parse(data);
   }
 
-  return { getAll, create, remove, restore };
+  return { getAll, getById, create, remove, restore };
 }
 
 export default TransactionViewModel;
