@@ -1,77 +1,119 @@
-# React + TypeScript + Vite
+# 💰 Planey
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação web para controle financeiro.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠️ Tecnologias Utilizadas
 
-## React Compiler
+- React
+- TypeScript
+- Tailwind CSS
+- Base UI
+- json-server
+- Zod
+- TanStack Query
+- TanStack Router
+- Vite
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+🔗 [Acessar Layout no Figma](https://www.figma.com/design/cf2Mydx1d1drp0CRq1n1Yy/4Pay---Planey-Challenge?node-id=56-2278&t=tMAMQKxX68U9cSN4-0)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+# 📥 Instruções de Instalação
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Pré-requisitos
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Antes de começar, você vai precisar ter instalado em sua máquina:
+
+- Node.js (versão recomendada: `>= 18.x`)
+- npm ou yarn
+
+## Instalação
+
+Clone o repositório:
+
+```bash
+git clone git@github.com:mariaporcina/financial-track-4p-fe-test.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+**Acesse a pasta do projeto:**
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cd financial-track-4p-fe-test
 ```
 
-## Instructions
+**Instale as dependências:**
 
-[https://frontend-test-4p-page.vercel.app/?view=true](https://frontend-test-4p-page.vercel.app/?view=true)
+```bash
+npm install
+# ou
+yarn install
+```
+
+## ▶️ Como Rodar o Projeto
+
+Para iniciar o projeto em ambiente de desenvolvimento:
+
+```bash
+npm run dev
+# ou
+yarn dev
+```
+
+e, para rodar o back-end:
+
+```bash
+npx json-server ./src/db.json
+```
+
+Após iniciar, o projeto estará disponível em:
+
+http://localhost:5173/transactions
+
+---
+
+# 🧠 Decisões Técnicas
+
+## React + TypeScript
+
+TypeScript foi adotado para garantir tipagem estática, reduzir erros em tempo de desenvolvimento e facilitar a manutenção do código.
+
+O projeto utiliza componentes funcionais e hooks, seguindo as práticas modernas do ecossistema React.
+
+## Tailwind CSS
+
+Tailwind CSS foi escolhido para acelerar o desenvolvimento da interface e manter consistência visual.
+
+O uso de classes reduz a necessidade de CSS customizado e melhora a legibilidade do layout.
+
+## Base UI
+
+Foi utilizada a biblioteca [Base UI](https://base-ui.com/) para a definição dos componentes comuns para garantir produtividade.
+
+Além disso, esta biblioteca proporciona controle sobre a implementação dos componentes, permitindo a personalização com facilidade.
+
+## Estrutura do Projeto - Arquitetura MVVM
+
+Estrutura organizada por responsabilidade para facilitar escalabilidade.
+
+Separação clara entre componentes reutilizáveis, páginas, hooks e serviços.
+
+# 📁 Estrutura de Pastas
+
+```bash
+src/
+├─ assets/
+├─ models/
+├─ queries/
+├─ schemas/
+├─ utils/
+├─ viewModels/
+├─ views/
+  ├─ pages
+  └─ components
+├─ App.tsx
+└─ main.tsx
+```
