@@ -15,13 +15,38 @@ const TransactionViewModel = () => {
     }
 
     const json = await response.json();
-    const data = z.array(TransactionSchema).parse(json);
+    const allData = z.array(TransactionSchema).parse(json);
 
+    // Filtrar por deleted
+    let filteredData = [];
     if (filters?.deleted) {
-      return data.filter(t => t.deletedAt !== null);
+      filteredData = allData.filter(t => t.deletedAt !== null);
+    } else {
+      filteredData = allData.filter(t => t.deletedAt === null);
     }
 
-    return data.filter(t => t.deletedAt === null);
+    filteredData.sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime();
+      const dateB = new Date(b.createdAt).getTime();
+      return dateB - dateA;
+    });
+
+    // Aplicar paginação
+    const page = filters?.page || 1;
+    const limit = filters?.limit || 8;
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    const paginatedData = filteredData.slice(startIndex, endIndex);
+
+    return {
+      data: paginatedData,
+      pagination: {
+        page,
+        limit,
+        total: filteredData.length,
+        totalPages: Math.ceil(filteredData.length / limit),
+      },
+    };
   }
 
   async function create(data: Partial<Transaction>) {

@@ -9,12 +9,20 @@ import Pagination from "../Pagination";
 const TransactionList = () => {
   const search = useSearch({ from: '/transactions' });
 
-  const { type, deleted } = search;
-  const { data: transactions, isLoading } = useQueryTransactions({ type, deleted });
+  const { type, deleted, page = 1, limit = 10 } = search;
+  const { data: transactionsData, isLoading } = useQueryTransactions({ 
+    type, 
+    deleted, 
+    page, 
+    limit 
+  });
 
   const { mutateAsync: remove } = useRemoveTransactions();
   
   const { mutateAsync: restore } = useRestoreTransactions();
+
+  const transactions = transactionsData?.data || [];
+  const pagination = transactionsData?.pagination;
 
   if (isLoading) {
     return (
@@ -36,7 +44,7 @@ const TransactionList = () => {
   return (
     <>
       <ul className="border-1 border-[#262626] rounded-2xl overflow-hidden mt-5">
-        {transactions?.map((transaction) => (
+        {transactions.map((transaction) => (
           <TransactionItem
             key={transaction.id}
             transaction={transaction}
@@ -46,7 +54,12 @@ const TransactionList = () => {
         ))}
       </ul>
     
-      {transactions?.length ? <Pagination /> : null}
+      {pagination && pagination.totalPages > 1 && (
+        <Pagination 
+          currentPage={pagination.page} 
+          totalPages={pagination.totalPages} 
+        />
+      )}
 
       <Outlet />
     </>

@@ -11,8 +11,6 @@ import { useState } from "react";
 
 const Home = () => {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-  const [amountValue, setAmounValue] = useState<number>(0);
-  const [selectedType, setSelectedType] = useState<"income" | "outcome">('income');
 
   const search = useSearch({ from: '/transactions' });
   const navigate = useNavigate({ from: '/transactions' });
@@ -23,18 +21,16 @@ const Home = () => {
       search: (prev) => ({
         ...prev,
         [key]: value,
+        page: 1,
       }),
     });
   };
 
   const { mutateAsync: create } = useCreateTransactions();
-  const handleCreateTransaction = async () => {
-    await create({
-      type: selectedType,
-      amount: amountValue,
-    });
-  }
-  
+  const handleCreateTransaction = async (data: { type: 'income' | 'outcome'; amount: number }) => {
+    await create({ type: data.type, amount: data.amount });
+  };
+
   return (
     <>
       <Container>
@@ -44,10 +40,6 @@ const Home = () => {
           <RegisterModal
             dialogOpen={dialogOpen}
             setDialogOpen={setDialogOpen}
-            amountValue={amountValue}
-            setAmounValue={setAmounValue}
-            selectedType={selectedType}
-            setSelectedType={setSelectedType}
             addTransaction={handleCreateTransaction}
           />
         </div>

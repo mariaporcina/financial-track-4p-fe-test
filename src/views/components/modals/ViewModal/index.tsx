@@ -1,5 +1,5 @@
-
-import { useEffect, useState } from 'react';
+import { useEffect, useCallback } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { Dialog } from '@base-ui/react/dialog';
 import { Button, NumberField, Toggle, ToggleGroup } from '@base-ui/react';
 import modalStyles from './index.module.css';
@@ -12,59 +12,65 @@ import { useNavigate, useParams } from '@tanstack/react-router';
 import { useGetOneTransaction } from '../../../../queries/hooks/useGetOneTransaction';
 import { transactionDetailRoute } from '../../../../main';
 import { useUpdateTransactions } from '../../../../queries/hooks/useUpdateTransactions';
+import type { TransactionFormValues } from '../../../../schemas/TransactionForm.schema';
+import { TRANSACTION_FORM_DEFAULTS, validateTransactionAmount } from '../../../../schemas/TransactionForm.schema';
 
 export default function ViewModal() {
-  const [dialogOpen, setDialogOpen] = useState<boolean>(true);
-  const [amountValue, setAmounValue] = useState<number>(0);
-  const [selectedType, setSelectedType] = useState<"income" | "outcome">('income');
-
   const navigate = useNavigate();
   const { id } = useParams({ from: transactionDetailRoute.id });
 
   const { data, isLoading: isFetching } = useGetOneTransaction(id);
-
-  useEffect(() => {
-    if(isFetching || !data) return;
-    
-    setAmounValue(data?.amount);
-    setSelectedType(data?.type);
-    
-  }, [data, isFetching]);
-
   const { mutateAsync: update, isPending: isUpdating } = useUpdateTransactions();
 
-  const handleUpdateTransaction = async () => {
-    if(isFetching || !data) return;
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<TransactionFormValues>({
+    defaultValues: TRANSACTION_FORM_DEFAULTS,
+    mode: 'onChange',
+  });
 
-    const payload = {
-      id: data.id,
-      data: {
-        type: selectedType,
-        amount: amountValue,
-      }
-    }
+  useEffect(() => {
+    if (isFetching || !data) return;
+    reset({
+      amount: data.amount,
+      type: data.type,
+    });
+  }, [data, isFetching, reset]);
 
-    await update(payload);
-  }
+  const onSubmit = useCallback(
+    async (formData: TransactionFormValues) => {
+      if (!data) return;
+      await update({
+        id: data.id,
+        data: {
+          type: formData.type,
+          amount: formData.amount,
+        },
+      });
+      navigate({ to: '/transactions' });
+    },
+    [data, update, navigate]
+  );
 
   const isLoading = isFetching || isUpdating;
-  
-  return (
-    <Dialog.Root
-      open={dialogOpen}
-    >
 
+  return (
+    <Dialog.Root open={true}>
       <Dialog.Portal>
         <Dialog.Backdrop className={modalStyles.Backdrop} />
 
         <Dialog.Popup className={`${modalStyles.Popup}`}>
-
           {isLoading && (
             <div className='flex justify-between items-start'>
               <Dialog.Title className={modalStyles.Title}>Carregando...</Dialog.Title>
-              
+
               <span
-                onClick={() => { navigate({ to: '/transactions' }); setDialogOpen(false) }}
+                onClick={() => {
+                  navigate({ to: '/transactions' });
+                }}
                 className='cursor-pointer -m-1.5 p-1.5 bg-[#262626] rounded-full'
               >
                 <Cross2Icon className='size-4.5 text-[#737373]' />
@@ -76,42 +82,79 @@ export default function ViewModal() {
             <>
               <div className='flex justify-between items-start'>
                 <Dialog.Title className={modalStyles.Title}>Valor</Dialog.Title>
-                
+
                 <span
-                  onClick={() => { navigate({ to: '/transactions' }); setDialogOpen(false) }}
+                  onClick={() => navigate({ to: '/transactions' })}
                   className='cursor-pointer -m-1.5 p-1.5 bg-[#262626] rounded-full'
                 >
                   <Cross2Icon className='size-4.5 text-[#737373]' />
                 </span>
               </div>
 
-              <form
-                className={modalStyles.TextareaContainer}
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  handleUpdateTransaction();
-                  navigate({ to: '/transactions' });
-                }}
-              >
-                <NumberField.Root>
-                  <NumberField.Input
-                    required
-                    placeholder="R$ 0,00"
-                    value={formatCurrency(amountValue)}
-                    onChange={(e) => {
-                      setAmounValue(parseCurrency(e.target.value))
-                    }}
-                    className={modalStyles.NumberField}
-                  />
-                </NumberField.Root>
+              <form className={modalStyles.TextareaContainer} onSubmit={handleSubmit(onSubmit)}>
+                <Controller
+                  name="amount"
+                  control={control}
+                  rules={{
+                    required: 'O valor é obrigatório.',
+                    validate: (value) => validateTransactionAmount(value),
+                  }}
+                  render={({ field }) => (
+                    <NumberField.Root>
+                      <NumberField.Input
+                        placeholder="R$ 0,00"
+                        value={formatCurrency(field.value)}
+                        onChange={(e) => {
+                          const parsed = parseCurrency(e.target.value);
+                          field.onChange(parsed);
+                        }}
+                        onBlur={field.onBlur}
+                        className={modalStyles.NumberField}
+                        aria-invalid={!!errors.amount}
+                      />
+                    </NumberField.Root>
+                  )}
+                />
+                {errors.amount && (
+                  <span className="text-[#DB2777] text-sm">{errors.amount.message}</span>
+                )}
 
                 <div className={modalStyles.Actions}>
-                  <ToggleGroup  value={[selectedType]} onValueChange={(value) => setSelectedType(value[0])} defaultValue={['income']} className={modalStyles.ToggleGroup}>
-                    <Toggle aria-label="income" value="income" disabled={selectedType === 'income'} className={modalStyles.ToggleButton}>Entrada</Toggle>
-                    <Toggle aria-label="outcome" value="outcome" disabled={selectedType === 'outcome'} className={modalStyles.ToggleButton}>Saída</Toggle>
-                  </ToggleGroup>
+                  <Controller
+                    name="type"
+                    control={control}
+                    render={({ field }) => (
+                      <ToggleGroup
+                        value={[field.value]}
+                        onValueChange={(value) => field.onChange(value[0])}
+                        className={modalStyles.ToggleGroup}
+                      >
+                        <Toggle
+                          aria-label="income"
+                          value="income"
+                          disabled={field.value === 'income'}
+                          className={modalStyles.ToggleButton}
+                        >
+                          Entrada
+                        </Toggle>
+                        <Toggle
+                          aria-label="outcome"
+                          value="outcome"
+                          disabled={field.value === 'outcome'}
+                          className={modalStyles.ToggleButton}
+                        >
+                          Saída
+                        </Toggle>
+                      </ToggleGroup>
+                    )}
+                  />
 
-                  <Button type="submit" className={`${styles.Button} bg-[#C0E952] text-[#171717] text-sm font-medium`}>Salvar alterações</Button>
+                  <Button
+                    type="submit"
+                    className={`${styles.Button} bg-[#C0E952] text-[#171717] text-sm font-medium`}
+                  >
+                    Salvar alterações
+                  </Button>
                 </div>
               </form>
             </>

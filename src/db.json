@@ -15,6 +15,126 @@
       "deletedAt": null,
       "createdAt": "2026-01-29T10:00:00.000Z",
       "updatedAt": "2026-02-05T17:44:01.115Z"
+    },
+    {
+      "id": "5295",
+      "type": "income",
+      "amount": 34.34,
+      "deletedAt": "2026-02-06T18:49:59.909Z",
+      "createdAt": "2026-02-06T18:49:44.468Z",
+      "updatedAt": "2026-02-06T18:49:59.909Z"
+    },
+    {
+      "id": "4ce0",
+      "type": "outcome",
+      "amount": 323.23,
+      "deletedAt": "2026-02-06T19:06:00.643Z",
+      "createdAt": "2026-02-06T18:49:50.070Z",
+      "updatedAt": "2026-02-06T19:06:00.643Z"
+    },
+    {
+      "id": "6055",
+      "type": "outcome",
+      "amount": 44.44,
+      "deletedAt": null,
+      "createdAt": "2026-02-06T19:06:08.384Z",
+      "updatedAt": "2026-02-06T19:06:08.384Z"
+    },
+    {
+      "id": "c80c",
+      "type": "outcome",
+      "amount": 34.34,
+      "deletedAt": null,
+      "createdAt": "2026-02-06T19:08:31.450Z",
+      "updatedAt": "2026-02-06T19:08:31.450Z"
+    },
+    {
+      "id": "a991",
+      "type": "outcome",
+      "amount": 4324.34,
+      "deletedAt": null,
+      "createdAt": "2026-02-06T19:08:50.964Z",
+      "updatedAt": "2026-02-06T19:08:50.964Z"
+    },
+    {
+      "id": "dac3",
+      "type": "income",
+      "amount": 11.11,
+      "deletedAt": null,
+      "createdAt": "2026-02-06T19:11:16.384Z",
+      "updatedAt": "2026-02-06T19:11:16.384Z"
+    },
+    {
+      "id": "f941",
+      "type": "income",
+      "amount": 434.34,
+      "deletedAt": null,
+      "createdAt": "2026-02-06T19:17:35.745Z",
+      "updatedAt": "2026-02-06T19:17:35.746Z"
+    },
+    {
+      "id": "dcae",
+      "type": "income",
+      "amount": 43.34,
+      "deletedAt": null,
+      "createdAt": "2026-02-06T19:17:51.606Z",
+      "updatedAt": "2026-02-06T19:17:51.606Z"
+    },
+    {
+      "id": "ec43",
+      "type": "income",
+      "amount": 434.34,
+      "deletedAt": null,
+      "createdAt": "2026-02-06T19:17:53.745Z",
+      "updatedAt": "2026-02-06T19:17:53.745Z"
+    },
+    {
+      "id": "1352",
+      "type": "income",
+      "amount": 54.33,
+      "deletedAt": null,
+      "createdAt": "2026-02-06T19:17:56.999Z",
+      "updatedAt": "2026-02-06T19:17:56.999Z"
+    },
+    {
+      "id": "137a",
+      "type": "income",
+      "amount": 535.35,
+      "deletedAt": null,
+      "createdAt": "2026-02-06T19:18:00.113Z",
+      "updatedAt": "2026-02-06T19:18:00.113Z"
+    },
+    {
+      "id": "c440",
+      "type": "income",
+      "amount": 545.45,
+      "deletedAt": null,
+      "createdAt": "2026-02-06T19:49:06.643Z",
+      "updatedAt": "2026-02-06T19:49:06.643Z"
+    },
+    {
+      "id": "0be7",
+      "type": "income",
+      "amount": 55555.55,
+      "deletedAt": null,
+      "createdAt": "2026-02-06T19:49:11.388Z",
+      "updatedAt": "2026-02-06T19:49:11.388Z"
+    },
+    {
+      "id": "c553",
+      "type": "income",
+      "amount": 0.01,
+      "deletedAt": null,
+      "createdAt": "2026-02-06T20:10:21.317Z",
+      "updatedAt": "2026-02-06T20:10:21.317Z"
+    },
+    {
+      "id": "cd6b",
+      "type": "outcome",
+      "amount": 12.11,
+      "deletedAt": null,
+      "createdAt": "2026-02-06T20:10:29.929Z",
+      "updatedAt": "2026-02-06T20:10:29.929Z"
     }
   ]
 }
